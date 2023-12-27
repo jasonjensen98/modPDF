@@ -11,8 +11,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class ImageManager {
-    public Queue<String> urls;
-    public Queue<PDImageXObject> imageQueue;
+    private Queue<String> urls;
+    private Queue<PDImageXObject> imageQueue;
     private PDDocument currentDocument;
 
     public ImageManager(Queue<String> urls) {
@@ -25,15 +25,30 @@ public class ImageManager {
         if (!imageQueue.isEmpty()) {
             return imageQueue.poll();
         } else if (!urls.isEmpty()) {
-            currentDocument.close();
+          //  try {
+                //currentDocument.close();
+          //  } catch (IOException e) {
+
+         //   }
             currentDocument = loadPdfInMemory(urls.poll());
             imageQueue = processPdfObject();
             return imageQueue.poll();
+
         }
-            currentDocument.close();
+       //     try {
+               // currentDocument.close();
+       //     } catch (IOException e) {
+
+       //     }
             System.out.println("All images processed");
             return null;
 
+    }
+    public boolean hasNextImage() {
+        if(urls.isEmpty() && imageQueue.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
     public Queue<PDImageXObject> processPdfObject() {

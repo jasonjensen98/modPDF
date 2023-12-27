@@ -39,45 +39,11 @@ public class Main {
         queue.add("14.pdf");
         queue.add("15.pdf");
         queue.add("16.pdf");
+        DocumentBuilder newBuilding = new DocumentBuilder(queue);
+        newBuilding.ImageBuild();
 
-        ImageManager imageManage = new ImageManager(queue);
-        PDDocument document = new PDDocument();
 
 
-        try {
-
-            while ((!imageManage.urls.isEmpty())) {
-                PDRectangle a4 = PDRectangle.A4;
-                PDPage page = new PDPage(a4);
-                document.addPage(page);
-                PDImageXObject image = imageManage.nextImage();
-
-                PDPageContentStream contentStream = new PDPageContentStream(document, page);
-
-                // Center the image on the page
-                float scale = 1.0f; // Adjust scale factor as needed
-                float imageWidth = image.getWidth() * scale;
-                float imageHeight = image.getHeight() * scale;
-
-                float xPosition = (a4.getWidth() - imageWidth) / 2;
-                float yPosition = (a4.getHeight() - imageHeight) / 2;
-
-                contentStream.drawImage(image, xPosition, yPosition, imageWidth, imageHeight);
-
-                contentStream.close();
-
-            }
-
-            document.save("output.pdf");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                document.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 
